@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foto de Perfil com Moldura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        canvas {
+            margin-top: 20px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Gerador de Foto de Perfil</h1>
+    <input type="file" id="upload" accept="image/*">
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <br>
+    <button id="download" disabled>Baixar Imagem</button>
+
+    <script>
+        const upload = document.getElementById('upload');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const downloadBtn = document.getElementById('download');
+        const borderImg = new Image();
+        borderImg.src = 'moldura.png'; // Certifique-se de que 'moldura.png' está na mesma pasta
+
+        borderImg.onload = function() {
+            // Garantir que a moldura é desenhada assim que a imagem é carregada
+            // Caso a moldura já esteja carregada, desenha a moldura após a imagem
+            if (upload.files.length > 0) {
+                const img = new Image();
+                img.onload = function() {
+                    drawImageProportionally(img);
+                    drawBorder();
+                    downloadBtn.disabled = false;
+                };
+                img.src = URL.createObjectURL(upload.files[0]);
+            }
+        };
+
+        // Função para desenhar a imagem no canvas mantendo a proporção
+        function drawImageProportionally(img) {
+            const imgWidth = img.width;
+            const imgHeight = img.height;
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+
+            const scale = Math.min(canvasWidth / imgWidth, canvasHeight / imgHeight);
+            const x = (canvasWidth - imgWidth * scale) / 2;
+            const y = (canvasHeight - imgHeight * scale) / 2;
+
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Limpa o canvas
+            ctx.drawImage(img, x, y, imgWidth * scale, imgHeight * scale); // Desenha a imagem
+        }
+
+        // Função para desenhar a moldura
+        function drawBorder() {
+            ctx.drawImage(borderImg, 0, 0, canvas.width, canvas.height); // Desenha a moldura
+        }
+
+        // Upload de imagem
+        upload.addEventListener('change', function(event) {
+            if (event.target.files.length > 0) {
+                const file = event.target.files[0];
+                const img = new Image();
+                img.onload = function() {
+                    drawImageProportionally(img);
+                    drawBorder(); // Desenha a moldura após a imagem
+                    downloadBtn.disabled = false; // Habilita o botão de download
+                };
+                img.src = URL.createObjectURL(file);
+            }
+        });
+
+        // Baixar a imagem
+        downloadBtn.addEventListener('click', function() {
+            const imageDataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = imageDataURL;
+            link.download = 'foto_com_moldura.png';
+            link.style.display = 'none'; // Esconde o link
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    </script>
+
+</body>
+</html>
