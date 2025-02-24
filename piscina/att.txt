@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carteirinha de Estudante</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .card-container {
+            position: relative;
+            width: 3366px;
+            height: 1080px;
+            background: url('design.png') no-repeat center/cover;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: hidden;
+            padding: 40px;
+            box-sizing: border-box;
+            position: absolute;
+            left: -9999px;
+        }
+
+        #photoContainer {
+    position: absolute;
+    top: 400px;
+    right: 40px;
+    width: 250px; /* Largura fixa */
+    height: 333px; /* Altura fixa (proporção 3x4) */
+    border: 2px solid #000;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#photoContainer img {
+    width: auto; /* Mantém a largura automática */
+    height: 100%; /* Garante que a altura sempre cubra o container */
+    object-fit: cover; /* Corta as laterais para manter 3x4 */
+    object-position: center; /* Mantém o centro da imagem visível */
+}
+
+
+
+
+        .text-field {
+            font-size: 55px;
+            font-weight: bold;
+            color: #000000;
+            position: absolute;
+            padding-top: 230px;
+        }
+        #name { top: 200px; left: 1833px; text-align: right; }
+#age { top: 280px; left: 1833px; text-align: right; }
+#bloodType { top: 360px; left: 1833px; text-align: right; }
+#birthDate { top: 440px; left: 1833px; text-align: right; }
+
+#address { top: 200px; left: 300px; text-align: left; }
+#neighborhood { top: 280px; left: 300px; text-align: left; }
+#city { top: 360px; left: 300px; text-align: left; }
+#rg { top: 440px; left: 300px; text-align: left; }
+#issueDate { top: 520px; left: 300px; text-align: left; }
+
+        .input-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .input-form input, .input-form select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .input-form button {
+            padding: 12px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>gerar carteirinha</h2>
+    
+    <br>
+
+    <div class="card-container" id="card">
+        <div id="name" class="text-field">NOME: </div>
+        <div id="age" class="text-field">IDADE: </div>
+        <div id="bloodType" class="text-field">TIPO SANGUÍNEO: </div>
+        <div id="birthDate" class="text-field">NASCIMENTO: </div>
+        <div id="address" class="text-field">ENDEREÇO: </div>
+        <div id="neighborhood" class="text-field">BAIRRO: </div>
+        <div id="city" class="text-field">CIDADE: </div>
+        <div id="rg" class="text-field">RG: </div>
+        <div id="issueDate" class="text-field">EMISSÃO: </div>
+        <div id="photoContainer"></div>
+    </div>
+    
+    <div class="input-form">
+        <input type="text" id="nameInput" placeholder="Digite o nome">
+        <input type="number" id="ageInput" placeholder="Digite a idade">
+        <select id="bloodTypeInput">
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+        </select>
+                <input type="text" id="birthDateInput" placeholder="Digite a data de nascimento" oninput="formatDate(event)" maxlength="10">
+        <input type="text" id="addressInput" placeholder="Digite o endereço">
+        <input type="text" id="neighborhoodInput" placeholder="Digite o bairro">
+        <input type="text" id="cityInput" placeholder="Digite a cidade">
+        <input type="text" id="rgInput" placeholder="Digite o RG">
+        <input type="text" id="issueDateInput" placeholder="Digite a data de emissão" oninput="formatDate(event)" maxlength="10">
+        <input type="file" id="photoInput" accept="image/*" onchange="loadPhoto(event)">
+    
+
+
+    <button onclick="fillCard()">Preencher Carteirinha</button>
+    <button id="downloadBtn" onclick="downloadCard()" disabled>Baixar Carteirinha</button>
+</div>
+
+<!-- Div para a mensagem de sucesso (no canto direito) -->
+<div id="successMessage" style="display: none; color: green; font-size: 18px; position: fixed; top: 20px; right: 20px; background-color: #fff; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    Carteirinha preenchida com sucesso!
+</div>
+<script>
+    // Função para formatar a data no formato BR (DD/MM/AAAA)
+    function formatDate(event) {
+        let inputDate = event.target.value;
+        
+        // Remove qualquer caractere não numérico
+        inputDate = inputDate.replace(/\D/g, '');
+        
+        // Adiciona a formatação DD/MM/AAAA
+        if (inputDate.length <= 2) {
+            inputDate = inputDate.replace(/(\d{2})/, '$1');
+        } else if (inputDate.length <= 4) {
+            inputDate = inputDate.replace(/(\d{2})(\d{2})/, '$1/$2');
+        } else {
+            inputDate = inputDate.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
+        }
+        
+        // Atualiza o valor do campo de entrada com a data formatada
+        event.target.value = inputDate;
+    }
+</script>
+<script>
+    function fillCard() {
+    const name = document.getElementById('nameInput').value;
+    const age = document.getElementById('ageInput').value;
+    const bloodType = document.getElementById('bloodTypeInput').value;
+    const birthDate = document.getElementById('birthDateInput').value;
+    const address = document.getElementById('addressInput').value;
+    const neighborhood = document.getElementById('neighborhoodInput').value;
+    const city = document.getElementById('cityInput').value;
+    const rg = document.getElementById('rgInput').value;
+    const issueDate = document.getElementById('issueDateInput').value;
+
+    document.getElementById('name').textContent = `NOME: ${name}`;
+    document.getElementById('age').textContent = `IDADE: ${age}`;
+    document.getElementById('bloodType').textContent = `TIPO SANGUÍNEO: ${bloodType}`;
+    document.getElementById('birthDate').textContent = `NASCIMENTO: ${birthDate}`;
+    document.getElementById('address').textContent = `ENDEREÇO: ${address}`;
+    document.getElementById('neighborhood').textContent = `BAIRRO: ${neighborhood}`;
+    document.getElementById('city').textContent = `CIDADE: ${city}`;
+    document.getElementById('rg').textContent = `RG: ${rg}`;
+    document.getElementById('issueDate').textContent = `EMISSÃO: ${issueDate}`;
+
+     // Exibindo a mensagem de sucesso
+     const successMessage = document.getElementById('successMessage');
+    successMessage.style.display = 'block';
+
+    // Ocultando a mensagem após 3 segundos
+    setTimeout(function() {
+        successMessage.style.display = 'none';
+    }, 3000);
+
+
+        // Habilitar botão de download
+        document.getElementById('downloadBtn').disabled = false;
+    }
+
+    function downloadCard() {
+    const card = document.getElementById('card');
+
+    html2canvas(card, {
+        scale: 3, // Aumenta a resolução da imagem
+        useCORS: true // Permite carregar imagens externas corretamente
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'carteirinha.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
+
+    function changeCardModel() {
+        const selectedModel = document.getElementById('cardModel').value;
+        document.getElementById('card').style.background = `url('${selectedModel}') no-repeat center/cover`;
+    }
+</script>
+<script>
+    function loadPhoto(event) {
+    const photoContainer = document.getElementById('photoContainer');
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.src = e.target.result;
+            img.alt = "Foto do Estudante";
+            img.style.height = "100%"; // Mantém a altura fixa
+            img.style.width = "auto"; // Ajusta a largura automaticamente
+            img.style.objectFit = "cover"; // Corta as laterais sem distorcer
+            img.style.objectPosition = "center"; // Mantém o centro da imagem visível
+            
+            photoContainer.innerHTML = ""; // Remove imagens anteriores
+            photoContainer.appendChild(img);
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+
+
+</script>
+
+<!-- Adiciona a biblioteca html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</body>
+</html>
