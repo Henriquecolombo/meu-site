@@ -210,17 +210,20 @@
 
     function downloadCard() {
     const card = document.getElementById('card');
+    const name = document.getElementById('nameInput').value.trim().replace(/\s+/g, ' '); // Substitui espaços por underscores
 
     html2canvas(card, {
         scale: 3, // Aumenta a resolução da imagem
         useCORS: true // Permite carregar imagens externas corretamente
     }).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'carteirinha.png';
+        const fileName = name ? `carteirinha - ${name}.png` : 'carteirinha.png'; // Se não houver nome, usa padrão
+        link.download = fileName;
         link.href = canvas.toDataURL('image/png');
         link.click();
     });
 }
+
 
     function changeCardModel() {
         const selectedModel = document.getElementById('cardModel').value;
