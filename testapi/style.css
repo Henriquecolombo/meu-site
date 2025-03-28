@@ -5,7 +5,6 @@ body {
 .character-card {
     cursor: pointer;
     transition: transform 0.2s;
-
 }
 
 .font1 {
@@ -45,6 +44,7 @@ body {
     padding: 50px;
 }
 
+/* Layout padrão para desktop */
 .character-grid {
     display: flex;
     flex-wrap: wrap;
@@ -61,20 +61,31 @@ body {
     text-align: center;
 }
 
+/* Removendo regras que podem estar influenciando o layout */
 .col-md-3 {
-    flex: 1 1 auto;
+    flex: none; /* Evita que o Bootstrap controle o tamanho */
+    width: 220px;
     max-width: 220px;
 }
 
+/* Modo mobile: forçar os cards a ficarem empilhados */
 @media (max-width: 768px) {
     .character-grid {
-        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
     }
 
     .col-md-3 {
-        flex: 1 1 100%;
-        max-width: 100%;
+        width: 100% !important;
+        max-width: 300px !important;
         display: flex;
         justify-content: center;
+    }
+
+    .personagem-card {
+        width: 100%;
+        max-width: 300px;
     }
 }
