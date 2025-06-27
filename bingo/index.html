@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel de Bingo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+background: url('imagem.png') no-repeat center center;
+background-size: auto;
+background-repeat: no-repeat;
+background-position: center center;    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2vh 2vw;
+    }
+
+    h1 {
+      font-size: 6vh;
+    }
+
+    .main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      width: 100%;
+      gap: 3vw;
+    }
+
+    .bingo-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3vh;
+      max-height: 100%;
+      overflow: hidden;
+    }
+
+    .letter-column {
+      display: flex;
+      align-items: flex-start;
+      gap: 2vw;
+    }
+
+    .letter-title {
+      font-size: 5vh;
+      font-weight: bold;
+      width: 6vh;
+    }
+
+    .number-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2vh;
+    }
+
+    .number {
+      background: #ff7300;
+      padding: 2vh;
+      border-radius: 1vh;
+      cursor: pointer;
+      width: 8vh;
+      height: 8vh;
+      font-size: 6vh;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .number:hover {
+      background: #444;
+    }
+
+    .number.marked {
+      background: #4caf50;
+      color: #fff;
+      border-color: #4caf50;
+    }
+
+    .highlight {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+ 
+    }
+
+    .highlight h2 {
+      font-size: 3.5vh;
+      margin-bottom: 1vh;
+    }
+
+    #highlight-number {
+      font-size: 15vh;
+      font-weight: bold;
+      color: #ff0000;
+      border: 5px dashed #ff0000;
+      
+      width: 50vh;
+      height: 20vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2vh;
+      background-color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+<br><br><br><br>
+  <div class="main">
+    <div class="bingo-panel" id="bingo-panel"></div>
+  </div>
+
+  <div class="highlight">
+    <div id="highlight-number">--</div>
+  </div>
+
+  <script>
+    const bingoPanel = document.getElementById("bingo-panel");
+    const highlightNumber = document.getElementById("highlight-number");
+
+    const letters = {
+      B: [1, 15],
+      I: [16, 30],
+      N: [31, 45],
+      G: [46, 60],
+      O: [61, 75]
+    };
+
+    for (const letter in letters) {
+      const [start, end] = letters[letter];
+      const column = document.createElement("div");
+      column.classList.add("letter-column");
+
+      const title = document.createElement("div");
+      title.classList.add("letter-title");
+      title.textContent = letter;
+
+      const numberList = document.createElement("div");
+      numberList.classList.add("number-list");
+
+      for (let i = start; i <= end; i++) {
+        const num = document.createElement("div");
+        num.classList.add("number");
+        num.textContent = i;
+        num.dataset.value = `${letter}${i}`;
+
+        num.addEventListener("click", () => {
+          const valor = `${letter}${i}`;
+
+          if (num.classList.contains("marked")) {
+            num.classList.remove("marked");
+            highlightNumber.textContent = "--";
+          } else {
+            num.classList.add("marked");
+            highlightNumber.textContent = valor;
+          }
+        });
+
+        numberList.appendChild(num);
+      }
+
+      column.appendChild(numberList);
+      bingoPanel.appendChild(column);
+    }
+  </script>
+</body>
+</html>
