@@ -32,12 +32,13 @@
             position: absolute;
             left: -9999px;
         }
-        .text-field {
-            font-size: 55px;
-            font-weight: bold;
-            color: #000000;
-            position: absolute;
-        }
+.text-field {
+    font-size: 55px;
+    font-weight: bold;
+    color: #000000;
+    position: absolute;
+    /* removido: padding-top: 230px; */
+}
         #driver { top: 200px; left: 300px; text-align: left; }
         #point { top: 280px; left: 300px; text-align: left; }
         #monitor { top: 360px; left: 300px; text-align: left; }
@@ -48,10 +49,12 @@
 
         /* Ano no rodapé esquerdo */
 #year {
-  padding-top: 0 !important;
-  bottom: 80px;   /* antes: 100px (ajuste fino) */
+  bottom: 80px;
   left: 300px;
+  text-align: left;
+  font-size: 50px;
 }
+
 
         .input-form {
             display: flex;
