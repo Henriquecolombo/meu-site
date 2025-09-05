@@ -1,1 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carteirinha de Estudante</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .card-container {
+            position: relative;
+            width: 3366px;
+            height: 1080px;
+            background: url('modelo1.png') no-repeat center/cover;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: hidden;
+            padding: 40px;
+            box-sizing: border-box;
+            position: absolute;
+            left: -9999px;
+        }
+        .text-field {
+            font-size: 55px;
+            font-weight: bold;
+            color: #000000;
+            position: absolute;
+        }
+        #driver { top: 200px; left: 300px; text-align: left; }
+        #point { top: 280px; left: 300px; text-align: left; }
+        #monitor { top: 360px; left: 300px; text-align: left; }
+        #student { top: 200px; left: 1833px; text-align: right; }
+        #ra { top: 280px; left: 1833px; text-align: right; }
+        #serie { top: 360px; left: 1833px; text-align: right; }
+        #turno { top: 440px; left: 1833px; text-align: right; }
+
+        /* Ano no rodapé esquerdo */
+        #year {
+            bottom: 100px;
+            left: 300px;
+            text-align: left;
+            font-size: 50px;
+        }
+
+        .input-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .input-form input, .input-form select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .input-form button {
+            padding: 12px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Escolha um modelo de carteirinha</h2>
+    <select id="cardModel" onchange="changeCardModel()">
+        <option value="">Escolha aqui</option>
+        <option value="amareloemef.png">Amarelo EMEF</option>
+        <option value="amareloemei.png">Amarelo EMEI</option>
+        <option value="amareloerme.png">Amarelo ERME</option>
+        <option value="azulemef.png">Azul EMEF</option>
+        <option value="azulemei.png">Azul EMEI</option>
+        <option value="azulerme.png">Azul ERME</option>
+        <option value="cinzaemef.png">Cinza EMEF</option>
+        <option value="cinzaemei.png">Cinza EMEI</option>
+        <option value="cinzaerme.png">Cinza ERME</option>
+        <option value="laranjaemef.png">Laranja EMEF</option>
+        <option value="laranjaemei.png">Laranja EMEI</option>
+        <option value="laranjaerme.png">Laranja ERME</option>
+        <option value="marromemef.png">Marrom EMEF</option>
+        <option value="marromemei.png">Marrom EMEI</option>
+        <option value="marromerme.png">Marrom ERME</option>
+        <option value="pretoemef.png">Preto EMEF</option>
+        <option value="pretoemei.png">Preto EMEI</option>
+        <option value="pretoerme.png">Preto ERME</option>
+        <option value="rosaemef.png">Rosa EMEF</option>
+        <option value="rosaemei.png">Rosa EMEI</option>
+        <option value="rosaerme.png">Rosa ERME</option>
+        <option value="roxoemef.png">Roxo EMEF</option>
+        <option value="roxoemei.png">Roxo EMEI</option>
+        <option value="roxoerme.png">Roxo ERME</option>
+        <option value="verdeemef.png">Verde EMEF</option>
+        <option value="verdeemei.png">Verde EMEI</option>
+        <option value="verdeerme.png">Verde ERME</option>
+        <option value="vermelhoemef.png">Vermelho EMEF</option>
+        <option value="vermelhoemei.png">Vermelho EMEI</option>
+        <option value="vermelhoerme.png">Vermelho ERME</option>
+        <option value="begeemef.png">Bege EMEF</option>
+        <option value="begeemei.png">Bege EMEI</option>
+        <option value="begeerme.png">Bege ERME</option>
+    </select>
+
+    <br>
+
+<div class="card-container" id="card">
+    <div id="driver" class="text-field">MOTORISTA: </div>
+    <div id="point" class="text-field">PONTO: </div>
+    <div id="monitor" class="text-field">MONITOR: </div>
+    <div id="student" class="text-field">ESTUDANTE: </div>
+    <div id="ra" class="text-field">RA: </div>
+    <div id="serie" class="text-field">SÉRIE: </div>
+    <div id="turno" class="text-field">TURNO: </div>
+    <div id="year" class="text-field">Carteirinha válida no ano de: </div>
+</div>
+
+<div class="input-form">
+    <input type="text" id="driverInput" placeholder="Digite o nome do motorista">
+    <input type="text" id="pointInput" placeholder="Digite o ponto">
+    <input type="text" id="monitorInput" placeholder="Digite o nome do monitor">
+    <input type="text" id="studentInput" placeholder="Digite o nome do estudante">
+    <input type="text" id="raInput" placeholder="Digite o RA do estudante">
+    <input type="text" id="serieInput" placeholder="Digite a série do estudante">
+    <input type="text" id="turnoInput" placeholder="Digite o turno do estudante">
+    
+    <!-- Seleção do ano -->
+    <select id="yearInput">
+        <option value="">Selecione o ano</option>
+        <option value="2024">2025</option>
+        <option value="2025">2026</option>
+        <option value="2026">2027</option>
+        <option value="2027">2028</option>
+    </select>
+
+    <button onclick="fillCard()">Preencher Carteirinha</button>
+    <button id="downloadBtn" onclick="downloadCard()" disabled>Baixar Carteirinha</button>
+</div>
+
+<script>
+    function fillCard() {
+        const driver = document.getElementById('driverInput').value;
+        const point = document.getElementById('pointInput').value;
+        const monitor = document.getElementById('monitorInput').value;
+        const student = document.getElementById('studentInput').value;
+        const ra = document.getElementById('raInput').value;
+        const serie = document.getElementById('serieInput').value;
+        const turno = document.getElementById('turnoInput').value;
+        const year = document.getElementById('yearInput').value;
+
+        document.getElementById('driver').textContent = `MOTORISTA: ${driver}`;
+        document.getElementById('point').textContent = `PONTO: ${point}`;
+        document.getElementById('monitor').textContent = `MONITOR: ${monitor}`;
+        document.getElementById('student').textContent = `ESTUDANTE: ${student}`;
+        document.getElementById('ra').textContent = `RA: ${ra}`;
+        document.getElementById('serie').textContent = `SÉRIE: ${serie}`;
+        document.getElementById('turno').textContent = `TURNO: ${turno}`;
+        document.getElementById('year').textContent = `Carteirinha válida no ano de: ${year}`;
+
+        // Habilitar botão de download
+        document.getElementById('downloadBtn').disabled = false;
+    }
+
+    function downloadCard() {
+        const card = document.getElementById('card');
+
+        html2canvas(card).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'carteirinha.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    }
+
+    function changeCardModel() {
+        const selectedModel = document.getElementById('cardModel').value;
+        if (selectedModel) {
+            document.getElementById('card').style.background = `url('${selectedModel}') no-repeat center/cover`;
+        }
+    }
+</script>
+
+<!-- Biblioteca html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</body>
+</html>
 
