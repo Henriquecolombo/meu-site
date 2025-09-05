@@ -33,11 +33,11 @@
             left: -9999px;
         }
 .text-field {
-    font-size: 55px;
-    font-weight: bold;
-    color: #000000;
-    position: absolute;
-    /* removido: padding-top: 230px; */
+  font-size: 55px;
+  font-weight: bold;
+  color: #000000;
+  position: absolute;
+  padding-top: 230px; /* restaurado — mantém MOTORISTA/PONTO/MONITOR etc no lugar */
 }
         #driver { top: 200px; left: 300px; text-align: left; }
         #point { top: 280px; left: 300px; text-align: left; }
@@ -49,6 +49,7 @@
 
         /* Ano no rodapé esquerdo */
 #year {
+  padding-top: 0 !important; /* garante que o padding da classe não afete o ano */
   bottom: 80px;
   left: 300px;
   text-align: left;
@@ -205,4 +206,3 @@
 
 </body>
 </html>
-
