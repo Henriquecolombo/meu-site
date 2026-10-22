@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seu Nome — Designer Gráfico</title>
+<meta name="description" content="Portfólio de design gráfico: identidade visual, social media e motion.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --preto:#080808; --grafite:#141414; --tinta:#080808; --papel:#ffffff; --amarelo:#ffd600;
+  --display:'Bricolage Grotesque',system-ui,sans-serif;
+  --texto:'Instrument Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--preto);color:var(--papel);font:400 1.0625rem/1.55 var(--texto);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--amarelo);outline-offset:3px}
+.wrap{width:min(1240px,100% - 2.5rem);margin-inline:auto}
+
+/* topo */
+.topo{display:flex;justify-content:space-between;align-items:center;padding:1.4rem 0;font-weight:500}
+.topo nav{display:flex;gap:1.6rem}
+.topo a{text-decoration:none}
+.topo a:hover{text-decoration:underline;text-underline-offset:5px}
+
+/* hero */
+.hero{padding:clamp(2rem,7vw,6rem) 0 clamp(3rem,7vw,6rem)}
+.nome{font:800 clamp(3.6rem,17vw,15rem)/.82 var(--display);letter-spacing:-.05em;margin-left:-.05em}
+.nome span{display:block;overflow:hidden;padding-bottom:.08em}
+.nome span i{display:block;font-style:normal;transform:translateY(105%);animation:sobe .9s cubic-bezier(.2,.8,.2,1) forwards}
+.nome span:nth-child(2) i{animation-delay:.12s;color:var(--amarelo)}
+@keyframes sobe{to{transform:none}}
+.hero-base{display:grid;grid-template-columns:minmax(0,34rem) auto;justify-content:space-between;gap:2rem;align-items:end;margin-top:clamp(2rem,5vw,4rem)}
+.hero-base p{font-size:1.25rem;line-height:1.45}
+.btn{display:inline-block;background:var(--amarelo);color:var(--tinta);font:600 1.05rem var(--texto);padding:1rem 1.7rem;border-radius:99px;text-decoration:none;border:2px solid var(--amarelo);box-shadow:4px 4px 0 var(--papel);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--papel)}
+
+/* trabalhos */
+.trabalhos{background:var(--grafite);padding:clamp(2.5rem,6vw,5rem) 0 6rem;border-top:2px solid var(--papel)}
+.cab{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1.5rem;margin-bottom:3rem}
+.cab h2{font:800 clamp(2.2rem,6vw,4.5rem)/.95 var(--display);letter-spacing:-.04em}
+.filtros{display:flex;flex-wrap:wrap;gap:.5rem}
+.filtros button{font:500 .98rem var(--texto);color:var(--papel);background:none;border:2px solid var(--papel);border-radius:99px;padding:.45rem 1.05rem;cursor:pointer;transition:background .15s,color .15s}
+.filtros button:hover{background:rgba(255,255,255,.15)}
+.filtros button[aria-pressed="true"]{background:var(--papel);color:var(--grafite)}
+
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr));gap:3rem 2.2rem;align-items:start}
+.item{--rot:0deg;rotate:var(--rot);transition:rotate .25s}
+.item:nth-child(3n+1){--rot:-1.2deg}
+.item:nth-child(3n+2){--rot:.9deg;margin-top:2.5rem}
+.item:nth-child(3n){--rot:-.4deg;margin-top:1rem}
+.item:hover{rotate:0deg}
+.item[hidden]{display:none}
+.moldura{box-sizing:content-box;position:relative;background:var(--papel);border:3px solid var(--papel);border-radius:6px;box-shadow:7px 7px 0 var(--amarelo);overflow:hidden}
+.moldura iframe{display:block;width:100%;border:0;background:var(--papel)}
+.ampliar{position:absolute;right:.6rem;bottom:.6rem;background:var(--amarelo);color:var(--tinta);border:0;border-radius:99px;padding:.4rem .9rem;font:500 .85rem var(--texto);cursor:pointer;opacity:0;transition:opacity .15s}
+.item:hover .ampliar,.ampliar:focus-visible{opacity:1}
+.legenda{display:flex;justify-content:space-between;gap:1rem;margin-top:1.1rem;align-items:baseline}
+.legenda h3{font:600 1.25rem/1.15 var(--display);letter-spacing:-.02em}
+.legenda small{font-size:.92rem;opacity:.8;white-space:nowrap}
+.vazio{grid-column:1/-1;font:600 1.5rem var(--display);padding:3rem 0}
+
+/* lightbox */
+dialog{border:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;padding:1rem;color:var(--papel)}
+dialog::backdrop{background:rgba(0,0,0,.92)}
+dialog[open]{display:grid;place-items:center}
+.caixa{position:relative;width:min(560px,100%);overflow:hidden;border-radius:6px;background:var(--papel)}
+.caixa iframe{display:block;width:100%;border:0}
+.fechar{position:fixed;top:1rem;right:1rem;background:var(--amarelo);color:var(--tinta);border:2px solid var(--amarelo);border-radius:99px;font:600 1rem var(--texto);padding:.55rem 1.2rem;cursor:pointer}
+
+/* sobre + contato */
+.sobre{padding:clamp(3rem,7vw,6rem) 0;display:grid;grid-template-columns:1fr 1.4fr;gap:3rem}
+.sobre h2{font:800 clamp(2rem,5vw,3.5rem)/1 var(--display);letter-spacing:-.04em}
+.sobre p{font-size:1.2rem;max-width:40rem}
+.servicos{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem;list-style:none;padding:0}
+.servicos li{border:2px solid var(--papel);border-radius:99px;padding:.3rem .95rem;font-weight:500}
+.contato{background:var(--amarelo);color:var(--tinta);padding:clamp(3rem,7vw,6rem) 0}
+.contato a.grande{display:block;font:800 clamp(2rem,3vw,7rem)/.95 var(--display);letter-spacing:-.05em;text-decoration:none;word-break:break-word}
+.contato a.grande:hover{text-decoration:underline;text-decoration-thickness:.07em;text-underline-offset:.1em}
+.redes{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:2rem;font-weight:600}
+footer{padding:1.5rem 0;font-size:.95rem;background:var(--preto);border-top:2px solid var(--papel)}
+
+@media (max-width:720px){
+  .hero-base,.sobre{grid-template-columns:1fr}
+  .item:nth-child(n){margin-top:0}
+  .ampliar{opacity:1}
+}
+@media (prefers-reduced-motion:reduce){
+  .nome span i{animation:none;transform:none}
+  html{scroll-behavior:auto}
+  .item{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap topo">
+  <strong id="marca"></strong>
+  <nav><a href="#trabalhos">Trabalhos</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a></nav>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <h1 class="nome" id="nome" aria-label="Henrique Colombo"></h1>
+    <div class="hero-base">
+      <p id="resumo"></p>
+      <a class="btn" href="#trabalhos">Ver trabalhos</a>
+    </div>
+  </section>
+
+  <section class="trabalhos" id="trabalhos">
+    <div class="wrap">
+      <div class="cab">
+        <h2>Trabalhos</h2>
+        <div class="filtros" id="filtros" role="group" aria-label="Filtrar por categoria"></div>
+      </div>
+      <div class="grade" id="grade"></div>
+    </div>
+  </section>
+
+  <section class="wrap sobre" id="sobre">
+    <h2>Sobre mim</h2>
+    <div>
+      <p id="bio"></p>
+      <ul class="servicos" id="servicos"></ul>
+    </div>
+  </section>
+
+  <section class="contato" id="contato">
+    <div class="wrap">
+      <p style="font-weight:600;margin-bottom:1rem">Contato</p>
+      <a class="grande" id="email"></a>
+      <div class="redes" id="redes"></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap" id="rodape"></div></footer>
+
+<dialog id="lightbox" aria-label="Projeto ampliado">
+  <button class="fechar" id="fechar">Fechar</button>
+  <div class="caixa" id="caixa"></div>
+</dialog>
+
+<script>
+/* =====================================================
+   EDITE SÓ ESTA PARTE
+   ===================================================== */
+const PERFIL = {
+  nome: ["Henrique", "Colombo"],               // duas linhas do título gigante
+  resumo: "Atuo como designer gráfico e editor de vídeo, transformando ideias em peças visuais criativas e conteúdos audiovisuais que comunicam, conectam e valorizam cada projeto. Meu foco é unir criatividade, técnica e identidade visual para entregar resultados de qualidade.",
+  bio: "Sou designer gráfico e editor de vídeo, com experiência na criação de peças gráficas e conteúdos audiovisuais, atuando principalmente no desenvolvimento de materiais de comunicação para o setor público, como prefeituras e órgãos municipais. Utilizo ferramentas como Adobe Photoshop, Illustrator, Premiere Pro e Audition para desenvolver artes institucionais, campanhas, publicações para redes sociais, vídeos e conteúdos multimídia, sempre buscando unir criatividade, qualidade visual e comunicação eficiente.",
+  servicos: ["Identidade visual", "Social media", "VideoMaker", "Materiais institucionais"],
+  email: "henrique@henriquecolombo.com",
+  instagram: "https://www.instagram.com/_henriquecolombo/",
+  whatsapp: "https://wa.me/5514991011914",
+  behance: ""                          // deixe vazio para ocultar
+};
+
+/* Para adicionar um trabalho: cole o link da publicação do Instagram.
+   Funciona com posts (/p/), reels (/reel/) e IGTV (/tv/) de perfis PÚBLICOS.
+   Campos: url (obrigatório) · titulo · categoria · cliente
+           formato (opcional): "quadrado" | "vertical" | "reel"  → ajusta a altura do quadro */
+const PROJETOS = [
+  { url: "https://www.instagram.com/reel/DdKElJnNphU/?utm_source=ig_web_copy_link&srtk=MzRlODBiNWFlZA==", titulo: "Vídeo da Defesa Civil", categoria: "Vídeo", cliente: "Prefeitura de Ocauçu" },
+  { url: "https://www.instagram.com/p/DeCTf7lFlro/?utm_source=ig_web_copy_link&psln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "Torneio de Futebol", categoria: "Post", cliente: "Prefeitura de Ocauçu" },
+  { url: "https://www.instagram.com/reel/DcZyOiZNrKF/?utm_source=ig_web_copy_link&xtok=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "Final da Copa de Ocauçu", categoria: "Vídeo", cliente: "Prefeitura de Ocauçu" },
+
+  { url: "https://www.instagram.com/p/Daka8dFt4iQ/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "Resultados do Campeonato", categoria: "Post", cliente: "Prefeitura de Ocauçu" },
+  { url: "https://www.instagram.com/reel/DZsi5NuNbR5/?utm_source=ig_web_copy_link&cplk=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "66 anos do município", categoria: "Vídeo", cliente: "Prefeitura de Ocauçu" },
+  { url: "https://www.instagram.com/p/DZFHbffDc8l/?img_index=1", titulo: "Mês do Município", categoria: "Post", cliente: "Prefeitura de Ocauçu" },
+
+  { url: "https://www.instagram.com/reel/DXPAlkxDaI1/?utm_source=ig_web_copy_link&cplk=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "Carro da Defesa Civil", categoria: "Vídeo", cliente: "Prefeitura de Ocauçu" },
+  { url: "https://www.instagram.com/p/DZftocyt2DB/", titulo: "Dia da Doação de Sangue", categoria: "Post", cliente: "Prefeitura de Ocauçu" },
+  { url: "https://www.instagram.com/reel/DRiWHhMjRnJ/?utm_source=ig_web_copy_link&vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "Carro do Fundo Social", categoria: "Vídeo", cliente: "Prefeitura de Ocauçu" },
+
+  { url: "https://www.instagram.com/p/DZh8PxMjEpS/", titulo: "Aniversário da cidade", categoria: "Post", cliente: "Paróquia de Ocauçu" },
+  { url: "https://www.instagram.com/reel/DWeL5IoE3NC/?utm_source=ig_web_copy_link&psln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "Domingo de Ramos", categoria: "Vídeo", cliente: "Paróquia de Ocauçu" },
+  { url: "https://www.instagram.com/p/DZhZ3zEjUGq/", titulo: "Dia do Padroeiro", categoria: "Post", cliente: "Paróquia de Ocauçu" },
+
+  { url: "https://www.instagram.com/reel/DUjsq6gjS1c/?utm_source=ig_web_copy_link&vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "Infraestrutura das escolas", categoria: "Vídeo", cliente: "Prefeito Dito" },
+  { url: "https://www.instagram.com/p/DVQ9LomDomg/", titulo: "Verbas para o município", categoria: "Post", cliente: "Prefeito Dito" },
+  { url: "https://www.instagram.com/reel/Da58dW7plLX/?utm_source=ig_web_copy_link&rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==", titulo: "Rebate ao vereador", categoria: "Vídeo", cliente: "Prefeito Dito" },
+
+  // { url: "https://www.instagram.com/p/XXXXXXXXXXX/", titulo: "…", categoria: "…", cliente: "…" },
+];
+/* Ajuste fino do recorte (esconde cabeçalho, curtidas e comentários do Instagram) */
+const RECORTE = {
+  topo: 60,   // px do cabeçalho do Instagram a esconder (aumente se ainda aparecer o nome do perfil)
+  caixa: 1.227,   // proporção da caixa do vídeo dentro do embed de reels (altura ÷ largura)
+  proporcoes: { quadrado: 1, vertical: 1.25, reel: 16 / 9 }   // altura ÷ largura do vídeo/imagem
+};
+/* Dica: se um vídeo sobrar faixa branca embaixo ou ficar cortado, use no projeto
+   formato: "quadrado" | "vertical" | "reel"   ou   proporcao: 1.5  (altura ÷ largura) */
+/* ===================================================== */
+
+const $ = s => document.querySelector(s);
+const el = (tag, props = {}, ...filhos) => {
+  const n = Object.assign(document.createElement(tag), props);
+  filhos.forEach(f => n.append(f));
+  return n;
+};
+
+/* converte link do Instagram em dados do embed */
+function lerLink(url) {
+  const m = String(url).match(/instagram\.com\/(?:[^\/?#]+\/)?(p|reels?|tv)\/([A-Za-z0-9_-]+)/i);
+  if (!m) return null;
+  const tipo = m[1].toLowerCase().startsWith("reel") ? "reel" : m[1].toLowerCase();
+  const rota = tipo === "reel" ? "reel" : tipo;
+  return { tipo, codigo: m[2], embed: `https://www.instagram.com/${rota}/${m[2]}/embed/`, link: `https://www.instagram.com/${rota}/${m[2]}/` };
+}
+
+/* altura visível = só a mídia (proporção × largura) */
+function altura(largura, p, d) {
+  const formato = p.formato || (d.tipo === "reel" || d.tipo === "tv" ? "reel" : "vertical");
+  const prop = p.proporcao || RECORTE.proporcoes[formato] || 1.25;
+  return Math.round(largura * prop);
+}
+
+/* iframe deslocado para cima: o cabeçalho sai do quadro; o rodapé fica abaixo da área visível */
+function criarIframe(p, d, titulo) {
+  const f = el("iframe", { src: d.embed, loading: "lazy", scrolling: "no", allowfullscreen: true, title: titulo });
+  f.setAttribute("allowtransparency", "true");
+  return f;
+}
+function dimensionar(moldura, f, p, d, largura) {
+  const topo = p.recorteTopo ?? RECORTE.topo;
+  const formato = p.formato || (d.tipo === "reel" || d.tipo === "tv" ? "reel" : "vertical");
+  const mh = altura(largura, p, d);
+  moldura.style.height = mh + "px";
+
+  if (formato === "reel" && !p.proporcao) {
+    /* Reels: o Instagram põe o vídeo 9:16 numa caixa mais larga, com faixas pretas nas laterais.
+       Renderizamos o embed numa largura fixa, ampliamos até o vídeo ocupar todo o quadro
+       e deslocamos para cortar as faixas, o cabeçalho e o rodapé. */
+    const BW = 440, fv = RECORTE.caixa * 9 / 16;
+    const k = (largura / fv) / BW;
+    f.style.width = BW + "px";
+    f.style.maxWidth = "none";
+    f.style.height = Math.round(BW * RECORTE.caixa + topo + 260) + "px";
+    f.style.transformOrigin = "0 0";
+    f.style.transform = `translate(${-(BW * k - largura) / 2}px, ${-topo * k}px) scale(${k})`;
+    f.style.marginTop = "0";
+  } else {
+    f.style.width = "100%";
+    f.style.transform = "none";
+    f.style.height = (mh + topo + 260) + "px";
+    f.style.marginTop = -topo + "px";
+  }
+}
+
+/* ---------- perfil ---------- */
+$("#marca").textContent = PERFIL.nome.join(" ");
+$("#nome").append(...PERFIL.nome.map(t => el("span", {}, el("i", { textContent: t }))));
+$("#nome").setAttribute("aria-label", PERFIL.nome.join(" "));
+$("#resumo").textContent = PERFIL.resumo;
+$("#bio").textContent = PERFIL.bio;
+PERFIL.servicos.forEach(s => $("#servicos").append(el("li", { textContent: s })));
+const em = $("#email"); em.href = "mailto:" + PERFIL.email; em.textContent = PERFIL.email;
+[["Instagram", PERFIL.instagram], ["WhatsApp", PERFIL.whatsapp], ["Behance", PERFIL.behance]]
+  .filter(([, u]) => u)
+  .forEach(([n, u]) => $("#redes").append(el("a", { href: u, target: "_blank", rel: "noopener", textContent: n })));
+$("#rodape").textContent = `© ${new Date().getFullYear()} ${PERFIL.nome.join(" ")}`;
+document.title = `${PERFIL.nome.join(" ")} — Designer Gráfico`;
+
+/* ---------- galeria ---------- */
+const grade = $("#grade");
+const itens = [];
+
+PROJETOS.forEach(p => {
+  const d = lerLink(p.url);
+  if (!d) { console.warn("Link inválido ignorado:", p.url); return; }
+  const titulo = p.titulo || "Projeto";
+
+  const moldura = el("div", { className: "moldura" }, criarIframe(p, d, titulo));
+  const btn = el("button", { className: "ampliar", textContent: "Ampliar" });
+  btn.setAttribute("aria-label", "Ampliar " + titulo);
+  btn.onclick = () => abrir(p, d, titulo);
+  moldura.append(btn);
+
+  const legenda = el("div", { className: "legenda" },
+    el("h3", { textContent: titulo }),
+    el("small", { textContent: [p.categoria, p.cliente].filter(Boolean).join(" · ") })
+  );
+  const item = el("article", { className: "item" }, moldura, legenda);
+  item.dataset.cat = p.categoria || "";
+  grade.append(item);
+  itens.push({ item, moldura, p, d });
+});
+
+function ajustar() {
+  itens.forEach(({ moldura, p, d }) => {
+    dimensionar(moldura, moldura.querySelector("iframe"), p, d, moldura.clientWidth);
+  });
+}
+addEventListener("resize", ajustar);
+ajustar();
+
+/* ---------- filtros ---------- */
+const cats = ["Tudo", ...new Set(PROJETOS.map(p => p.categoria).filter(Boolean))];
+const barra = $("#filtros");
+if (cats.length > 2) {
+  cats.forEach((c, i) => {
+    const b = el("button", { textContent: c, type: "button" });
+    b.setAttribute("aria-pressed", i === 0);
+    b.onclick = () => {
+      barra.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+      itens.forEach(({ item }) => item.hidden = !(i === 0 || item.dataset.cat === c));
+      ajustar();
+    };
+    barra.append(b);
+  });
+}
+if (!itens.length) grade.append(el("p", { className: "vazio", textContent: "Nenhum trabalho ainda. Adicione links do Instagram em PROJETOS no código." }));
+
+/* ---------- lightbox ---------- */
+const lb = $("#lightbox"), caixa = $("#caixa");
+function abrir(p, d, titulo) {
+  caixa.replaceChildren();
+  const f = criarIframe(p, d, titulo);
+  let w = Math.min(520, innerWidth - 32);
+  const prop = altura(1000, p, d) / 1000;
+  const maxH = innerHeight * 0.86;
+  if (w * prop > maxH) w = maxH / prop;
+  caixa.style.width = Math.round(w) + "px";
+  caixa.append(f);
+  dimensionar(caixa, f, p, d, Math.round(w));
+  lb.showModal();
+}
+$("#fechar").onclick = () => lb.close();
+lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+lb.addEventListener("close", () => caixa.replaceChildren());
+</script>
+</body>
+</html>
